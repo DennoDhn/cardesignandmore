@@ -12,20 +12,28 @@
   /* ── Mobile navigation ─────────────────────────────────── */
   var navToggle = document.querySelector('.nav-toggle');
   var mainNav = document.querySelector('.main-nav');
+  var siteHeader = document.querySelector('.site-header');
+
+  function setMobileNavOpen(isOpen) {
+    document.body.classList.toggle('nav-open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    if (siteHeader) siteHeader.classList.toggle('nav-is-open', isOpen);
+  }
 
   function closeMobileNav() {
     if (!navToggle || !mainNav) return;
     navToggle.setAttribute('aria-expanded', 'false');
     mainNav.classList.remove('is-open');
-    document.body.style.overflow = '';
+    setMobileNavOpen(false);
   }
 
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', function () {
       var expanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', String(!expanded));
-      mainNav.classList.toggle('is-open');
-      document.body.style.overflow = !expanded ? 'hidden' : '';
+      var willOpen = !expanded;
+      navToggle.setAttribute('aria-expanded', String(willOpen));
+      mainNav.classList.toggle('is-open', willOpen);
+      setMobileNavOpen(willOpen);
     });
 
     mainNav.querySelectorAll('a').forEach(function (link) {
@@ -43,8 +51,6 @@
   }
 
   /* ── Sticky header scroll state ────────────────────────── */
-  var siteHeader = document.querySelector('.site-header');
-
   if (siteHeader) {
     var onScroll = function () {
       siteHeader.classList.toggle('is-scrolled', window.scrollY > 20);
@@ -54,14 +60,40 @@
   }
 
   /* ── Active navigation link ────────────────────────────── */
-  var currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  if (currentPage === '') currentPage = 'index.html';
+  var PAGE_SLUGS = [
+    'leistungen', 'preise', 'galerie', 'kontakt',
+    'fahrzeugbeschriftung-bremen', 'schaufensterbeschriftung-bremen',
+    'rasenmaeher-reparatur-bremen', 'roller-reparatur-bremen',
+    'impressum', 'datenschutz', 'agb'
+  ];
+
+  function currentPageSlug() {
+    var path = window.location.pathname.replace(/\/+$/, '');
+    var segments = path.split('/').filter(Boolean);
+    if (!segments.length) return 'home';
+    var last = segments[segments.length - 1];
+    if (last === 'index.html' && segments.length > 1) {
+      last = segments[segments.length - 2];
+    }
+    return PAGE_SLUGS.indexOf(last) !== -1 ? last : 'home';
+  }
+
+  function linkPageSlug(href) {
+    if (!href || href.charAt(0) === '#') return null;
+    var clean = href.split('#')[0].split('?')[0].replace(/\/+$/, '');
+    if (!clean || clean === '.' || clean === '..') return 'home';
+    var parts = clean.split('/').filter(Boolean);
+    if (!parts.length) return 'home';
+    var last = parts[parts.length - 1];
+    if (last === 'index.html' && parts.length > 1) last = parts[parts.length - 2];
+    return PAGE_SLUGS.indexOf(last) !== -1 ? last : 'home';
+  }
+
+  var activeSlug = currentPageSlug();
 
   document.querySelectorAll('.nav-list a').forEach(function (link) {
     var href = link.getAttribute('href');
-    if (!href || href.indexOf('#') === 0) return;
-    var linkPage = href.split('/').pop();
-    if (linkPage === currentPage) {
+    if (linkPageSlug(href) === activeSlug) {
       link.classList.add('active');
       link.setAttribute('aria-current', 'page');
     }
