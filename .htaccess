@@ -1,0 +1,38 @@
+# Car Design and More – Apache-Konfiguration (Webroot)
+# Voraussetzung: mod_rewrite, mod_headers (optional: mod_expires)
+
+# ── HTTPS erzwingen ──────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # www → non-www (nur Produktionsdomain)
+  RewriteCond %{HTTP_HOST} ^www\.car-design-and-more\.de$ [NC]
+  RewriteRule ^ https://car-design-and-more.de%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ── Standarddokument ─────────────────────────────────────────
+DirectoryIndex index.html
+
+# ── Browser-Caching für statische Assets ─────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType image/png "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|svg|png|ico)$">
+    Header set Cache-Control "public, max-age=2592000, immutable"
+  </FilesMatch>
+
+  # Security Headers (konservativ, ohne CSP)
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>

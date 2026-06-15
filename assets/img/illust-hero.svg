@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" aria-hidden="true">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B0F14"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#DC2626" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#DC2626" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#DC2626" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#374151" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#6B7280" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#374151" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <g opacity="0.15" stroke="#374151" stroke-width="1">
+    <line x1="0" y1="200" x2="1920" y2="200"/><line x1="0" y1="400" x2="1920" y2="400"/>
+    <line x1="0" y1="600" x2="1920" y2="600"/><line x1="0" y1="800" x2="1920" y2="800"/>
+    <line x1="320" y1="0" x2="320" y2="1080"/><line x1="640" y1="0" x2="640" y2="1080"/>
+    <line x1="960" y1="0" x2="960" y2="1080"/><line x1="1280" y1="0" x2="1280" y2="1080"/>
+    <line x1="1600" y1="0" x2="1600" y2="1080"/>
+  </g>
+  <path d="M480 680 L620 520 L860 470 L1180 470 L1380 540 L1480 680 L1480 740 L480 740 Z" fill="none" stroke="#4B5563" stroke-width="2"/>
+  <path d="M640 540 L820 500 L1080 500 L1240 560 L1200 660 L680 660 Z" fill="#1F2937" stroke="#DC2626" stroke-width="1.5" opacity="0.7"/>
+  <circle cx="720" cy="740" r="48" fill="none" stroke="#4B5563" stroke-width="3"/>
+  <circle cx="1240" cy="740" r="48" fill="none" stroke="#4B5563" stroke-width="3"/>
+  <circle cx="720" cy="740" r="16" fill="#DC2626" opacity="0.5"/>
+  <circle cx="1240" cy="740" r="16" fill="#DC2626" opacity="0.5"/>
+  <path d="M1280 380 L1360 460 L1340 480 L1260 400 Z" fill="#DC2626" opacity="0.6"/>
+  <path d="M1180 420 C1120 480 1120 560 1180 620 L1220 580 C1160 520 1160 480 1220 420 Z" fill="#991B1B" opacity="0.5"/>
+  <line x1="200" y1="900" x2="1720" y2="900" stroke="url(#line)" stroke-width="2"/>
+</svg>
